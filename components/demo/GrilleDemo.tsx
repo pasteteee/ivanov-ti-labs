@@ -7,6 +7,8 @@ import {
   type GrilleStep,
   type GrilleDecryptStep,
 } from "@/lib/grilleSteps";
+import { normalizeToAlphabet } from "@/lib/normalize";
+import { ALPHABET_EN } from "@/config/alphabets";
 
 type Mode = "encrypt" | "decrypt";
 
@@ -30,7 +32,7 @@ export function GrilleDemo({
   > | null>(null);
 
   const runEncrypt = () => {
-    const normalized = plaintext.replace(/\s/g, "").toUpperCase();
+    const normalized = normalizeToAlphabet(plaintext, ALPHABET_EN);
     if (normalized.length === 0) return;
     const data = getGrilleEncryptSteps(normalized);
     setEncryptData(data);
@@ -39,7 +41,7 @@ export function GrilleDemo({
   };
 
   const runDecrypt = () => {
-    const normalized = ciphertext.replace(/\s/g, "").toUpperCase();
+    const normalized = normalizeToAlphabet(ciphertext, ALPHABET_EN);
     if (normalized.length === 0) return;
     const data = getGrilleDecryptSteps(normalized);
     setDecryptData(data);

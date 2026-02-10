@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Лабораторные работы по криптографии
 
-## Getting Started
+## ФИО
 
-First, run the development server:
+**Иванов Павел 451004 ТИ**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+(значение задаётся в `config/site.ts`)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Задание
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Написать программу, которая выполняет шифрование и дешифрование текстового файла любого размера, содержащего текст на заданном языке, используя следующие алгоритмы шифрования:
 
-## Learn More
+1. **Метод поворачивающейся решётки** — текст на английском языке, размер решётки 4×4, схема по методичке (Ярмолик, БГУИР). Решётка задаётся матрицей и поворачивается на 90° при заполнении; заполнение отверстий — сверху вниз.
+2. **Алгоритм Виженера с прогрессивным ключом** — текст на русском языке. При повторном применении ключа символы ключа сдвигаются на одну позицию в алфавите.
 
-To learn more about Next.js, take a look at the following resources:
+Требования:
+- Ключ задаётся с клавиатуры (для Виженера; для решётки схема фиксирована).
+- Игнорировать все символы, не являющиеся буквами заданного алфавита.
+- Результат — зашифрованный/расшифрованный файл и вывод на экран (не консольное приложение).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## В каких файлах находится код функций
 
-## Deploy on Vercel
+| Назначение | Файл |
+|------------|------|
+| **Решётка**: построение порядка записи, шифрование, дешифрование | `lib/cryptoUtils.ts` — `buildGrilleWriteOrder`, `grilleEncrypt`, `grilleDecrypt` |
+| **Виженер**: шифрование и дешифрование с прогрессивным ключом | `lib/cryptoUtils.ts` — `vigenereEncrypt`, `vigenereDecrypt` |
+| Нормализация текста (только буквы заданного алфавита) | `lib/normalize.ts` — `normalizeToAlphabet` |
+| Валидация ввода (пустой текст/ключ, проверка после нормализации) | `lib/validation.ts` — `validateGrilleInput`, `validateVigenereInput`, `validateByTask`, `validateFile` |
+| Пошаговые данные для демо решётки | `lib/grilleSteps.ts` — `getGrilleEncryptSteps`, `getGrilleDecryptSteps` |
+| Пошаговые данные для демо Виженера | `lib/vigenereSteps.ts` — `getVigenereEncryptSteps`, `getVigenereDecryptSteps` |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Конфигурация (решётка 4×4, алфавиты, тексты заданий, подписи кнопок) — в папке `config/`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Запуск
+
+Откройте [https://ivanov-ti-labs-deploy.vercel.app/lab1](https://ivanov-ti-labs-deploy.vercel.app/lab1). 
